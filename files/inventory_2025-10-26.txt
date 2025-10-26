@@ -1,0 +1,18 @@
+1;Product:Manzana;Stock:10;
+2;Product:Fresa;Stock:20;
+Total number of pruducts:2
+1;Product:Manzana;Stock:10;
+2;Product:Fresa;Stock:20;
+Total number of pruducts:2
+1;Product:Manzana;Stock:10;
+2;Product:Fresa;Stock:20;
+Total number of pruducts:2
+1;Product:Manzana;Stock:10;
+2;Product:Fresa;Stock:20;
+Total number of pruducts:2
+1;Product:Manzana;Stock:10;
+2;Product:Fresa;Stock:20;
+Total number of pruducts:2
+1;Product:Manzana;Stock:10;
+2;Product:Fresa;Stock:20;
+Total number of pruducts:2
