@@ -1,43 +1,124 @@
 # Java Project: Shop Management System 🏪
 
-The Shop Management System is a Java-based application designed to manage the operations of a retail shop. It incorporates features such as inventory management, employee authentication and graphical interfaces.
+Sistema de gestión de tienda desarrollado en Java con persistencia SQL mediante JDBC.
 
-## Project Overview
+**Autor:** Marc Muntané Clarà  
+**Versión:** 2.0
 
-The objective of this project is to develop a system capable of managing various aspects of a shop, including product inventory, sales, and employee access. 
+## Descripción del Proyecto
 
-## Getting Started
-### Prerequisites
-- **Java Development Kit (JDK):** Ensure that you have JDK 17 or higher installed.
-- **SQL Database:** Set up a local or remote SQL database for employee session management.
-- **Maven:** For dependency management
-- **Git:** Clone the project from the repository.
+El sistema permite gestionar el inventario de productos, ventas y autenticación de empleados de una tienda. Utiliza una arquitectura DAO (Data Access Object) para la persistencia de datos en MySQL.
+
+## Características Principales
+
+### Gestión de Inventario SQL
+- **Carga inicial desde tabla `inventory`**: Al iniciar la aplicación, se recuperan todos los productos desde la base de datos MySQL.
+- **Exportación a tabla histórica `historical_inventory`**: Permite guardar snapshots del inventario con timestamp.
+- **Sincronización en tiempo real**: Todas las operaciones (añadir, actualizar, eliminar productos) se reflejan inmediatamente en la base de datos.
+
+### Operaciones CRUD de Productos
+- `addProduct()` - Añade nuevos productos al inventario y BD
+- `updateProduct()` - Actualiza stock y disponibilidad
+- `deleteProduct()` - Elimina productos del inventario y BD
+- `findProduct()` - Busca productos por nombre
+
+### Autenticación de Empleados
+- Login seguro contra tabla `employee` de MySQL
+- Validación de credenciales mediante JDBC
+
+### Interfaz Gráfica (Swing)
+- **LoginView**: Autenticación de empleados
+- **ShopView**: Dashboard principal con menú de opciones
+- **ProductView**: Gestión de productos (añadir, stock, eliminar)
+- **CashView**: Visualización del dinero en caja
+
+## Estructura de Base de Datos
+
+```sql
+-- Tabla de inventario actual
+CREATE TABLE inventory (
+    id INT PRIMARY KEY,
+    name VARCHAR(100),
+    wholesalerPrice DOUBLE,
+    available BOOLEAN,
+    stock INT
+);
+
+-- Tabla de inventario histórico
+CREATE TABLE historical_inventory (
+    id_product INT,
+    name VARCHAR(100),
+    wholesalerPrice DOUBLE,
+    available BOOLEAN,
+    stock INT,
+    created_at TIMESTAMP
+);
+
+-- Tabla de empleados
+CREATE TABLE employee (
+    employeeId INT PRIMARY KEY,
+    name VARCHAR(100),
+    password VARCHAR(100)
+);
+```
+
+## Requisitos
+
+- **JDK 17** o superior
+- **MySQL Server** corriendo en localhost:3306
+- Base de datos llamada `shop`
+- Usuario MySQL: `root` (sin contraseña por defecto)
+
+## Estructura del Proyecto
 
 ```
-git clone https://github.com/Stucom-Pelai/MP0486_RA1_Files_Shop.git
+src/
+├── dao/
+│   ├── Dao.java              # Interfaz DAO
+│   ├── DaoImplJDBC.java      # Implementación JDBC
+│   └── DaoImplFile.java      # Implementación ficheros
+├── main/
+│   ├── Shop.java             # Clase principal
+│   ├── Logable.java          # Interfaz de login
+│   └── Payable.java          # Interfaz de pago
+├── model/
+│   ├── Product.java          # Modelo de producto
+│   ├── Amount.java           # Modelo de cantidad monetaria
+│   ├── Employee.java         # Modelo de empleado
+│   ├── Client.java           # Modelo de cliente
+│   └── Sale.java             # Modelo de venta
+├── view/
+│   ├── ShopView.java         # Vista principal
+│   ├── ProductView.java      # Vista de productos
+│   ├── LoginView.java        # Vista de login
+│   └── CashView.java         # Vista de caja
+└── utils/
+    └── Constants.java        # Constantes de la aplicación
 ```
 
-## Features
-### Core Functionality
-1) **Unlimited Inventory, Sales, and Products**: Removed any limits on the number of items in inventory, sales transactions, and products available for sale. The system now handles an unrestricted number of entries.
-   
-2) **Product Removal**: Added functionality to remove specific products from the inventory, updating stock levels accordingly.
+## Compilación y Ejecución
 
-3) **Load Inventory from File**: Developed methods to import the shop's inventory from multiple sources including files and databases.
- 
-4) **Login System**: Developed a secure login system for employees to authenticate before accessing the system.
+```bash
+# Compilar
+javac -d bin -sourcepath src src/main/Shop.java
 
-### Graphical User Interface (GUI)
-   - LoginView: A secure login interface for employee authentication.
-   - ShopView: A dashboard displaying options to manage products, inventory, and sales.
-   - CashView: A window showing the total cash available in the store.
-   - ProductView: An intuitive interface for adding, updating, and removing products.
- 
-### Data Management
-#### Database Integration
-   - **SQL Database Support:**
-      - JDBC implementation for SQL databases
+# Ejecutar
+java -cp bin main.Shop
+```
 
-### Architecture
-- **DAO Pattern:** Data Access Object pattern implementation for database operations
-- **MVC Architecture:** Clear separation between model, view, and controller components
+## Métodos Principales Refactorizados
+
+| Método Anterior | Método Nuevo | Descripción |
+|-----------------|--------------|-------------|
+| `loadInventory()` | `initializeInventory()` | Inicializa inventario desde BD |
+| `readInventory()` | `fetchInventoryFromDatabase()` | Lee productos de tabla SQL |
+| `writeInventory()` | `exportInventoryToDatabase()` | Exporta a tabla histórica |
+| `initSession()` | `authenticateEmployee()` | Autentica empleado |
+| `inventoryDao` | `productRepository` | Repositorio de productos |
+| `numberProducts` | `productCount` | Contador de productos |
+
+## Arquitectura
+
+- **Patrón DAO**: Abstrae el acceso a datos con interfaz `Dao` y múltiples implementaciones
+- **Arquitectura MVC**: Separación clara entre modelo, vista y controlador
+- **JDBC**: Conexión directa a MySQL sin frameworks ORM

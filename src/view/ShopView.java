@@ -21,6 +21,14 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.ActionEvent;
 
+/**
+ * Vista principal de la aplicación (dashboard).
+ * Proporciona acceso a todas las funciones de gestión de la tienda.
+ * Soporta interacción mediante botones y atajos de teclado.
+ * 
+ * @author Marc Muntané Clarà
+ * @version 2.0
+ */
 public class ShopView extends JFrame implements ActionListener, KeyListener {
 
 	private static final long serialVersionUID = 1L;
@@ -69,7 +77,7 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 
 		// create shop
 		shop = new Shop();
-		shop.loadInventory();
+		shop.initializeInventory();
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 600, 600);
@@ -84,7 +92,7 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 		lblShowCash.setBounds(57, 20, 236, 14);
 		contentPane.add(lblShowCash);
 
-		// Export inventory button
+		// Eport inventory button
 		btnExpInventeroy = new JButton("0. Exportar inventario");
 		btnExpInventeroy.setHorizontalAlignment(SwingConstants.LEFT);
 		btnExpInventeroy.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -187,11 +195,11 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 	}
 
 	/**
-	 * open dialog to show shop cash
+	 * Exporta el inventario actual a la tabla histórica de la base de datos.
+	 * Muestra un mensaje de confirmación o error al usuario.
 	 */
 	public void exportInventory() {
-
-		if (shop.writeInventory()) {
+		if (shop.exportInventoryToDatabase()) {
 			JOptionPane.showMessageDialog(this, "Inventario exportado correctamente", "INFORMACION",
 					JOptionPane.INFORMATION_MESSAGE);
 		} else {

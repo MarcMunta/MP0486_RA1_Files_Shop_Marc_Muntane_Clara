@@ -1,27 +1,53 @@
 package model;
 
+import dao.Dao;
+import dao.DaoImplJDBC;
 import main.Logable;
-import dao.*;
 
-public class Employee extends Person implements Logable{
+/**
+ * Clase que representa un empleado de la tienda.
+ * Extiende Person e implementa Logable para autenticación.
+ * Utiliza JDBC para validar credenciales contra la base de datos.
+ * 
+ * @author Marc Muntané Clarà
+ * @version 2.0
+ */
+public class Employee extends Person implements Logable {
+	
+	/** Identificador único del empleado */
 	private int employeeId;
+	
+	/** Contraseña del empleado */
 	private String password;
-	// connection using JDBC SQL
+	
+	/** DAO JDBC para autenticación contra base de datos */
 	private Dao dao = new DaoImplJDBC();
 	
-//	public static final int USER = 123;
-//	public static final String PASSWORD = "test";
-	
+	/**
+	 * Constructor con nombre.
+	 * 
+	 * @param name nombre del empleado
+	 */
 	public Employee(String name) {
 		super(name);
 	}
 	
+	/**
+	 * Constructor completo con credenciales.
+	 * 
+	 * @param employeeId identificador del empleado
+	 * @param name nombre del empleado
+	 * @param password contraseña del empleado
+	 */
 	public Employee(int employeeId, String name, String password) {
 		super(name);
 		this.employeeId = employeeId;
 		this.password = password;
 	}
 	
+	/**
+	 * Constructor por defecto.
+	 */
 	public Employee() {
 		super();
 	}

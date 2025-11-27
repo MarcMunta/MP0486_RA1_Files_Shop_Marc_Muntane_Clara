@@ -16,20 +16,45 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import main.Shop;
-import model.Product;
 import model.Amount;
+import model.Product;
 import utils.Constants;
 
-public class ProductView extends JDialog implements ActionListener{
+/**
+ * Diálogo Swing para gestionar productos del inventario.
+ * Permite añadir productos, añadir stock y eliminar productos.
+ * Sincroniza automáticamente los cambios con la base de datos SQL.
+ * 
+ * @author Marc Muntané Clarà
+ * @version 2.0
+ */
+public class ProductView extends JDialog implements ActionListener {
 
+	/** Identificador de serialización */
 	private static final long serialVersionUID = 1L;
+	
+	/** Referencia a la tienda para operaciones de inventario */
 	private Shop shop;
+	
+	/** Opción de operación seleccionada (añadir, stock, eliminar) */
 	private int option;
+	
+	/** Botón de confirmación */
 	private JButton okButton;
+	
+	/** Botón de cancelación */
 	private JButton cancelButton;
+	
+	/** Campo de texto para el nombre del producto */
 	private JTextField textFieldName;
+	
+	/** Campo de texto para el stock del producto */
 	private JTextField textFieldStock;
+	
+	/** Campo de texto para el precio del producto */
 	private JTextField textFieldPrice;
+	
+	/** Panel principal de contenido */
 	private final JPanel contentPanel = new JPanel();
 
 	/**
@@ -46,7 +71,11 @@ public class ProductView extends JDialog implements ActionListener{
 //	}
 
 	/**
-	 * Create the dialog.
+	 * Constructor del diálogo de gestión de productos.
+	 * Configura la interfaz según la operación seleccionada.
+	 * 
+	 * @param shop referencia a la tienda para operaciones
+	 * @param option tipo de operación (OPTION_ADD_PRODUCT, OPTION_ADD_STOCK, OPTION_REMOVE_PRODUCT)
 	 */
 	public ProductView(Shop shop, int option) {
 		this.shop = shop;
@@ -144,9 +173,15 @@ public class ProductView extends JDialog implements ActionListener{
 		}
 	}
 
+	/**
+	 * Maneja los eventos de los botones OK y Cancel.
+	 * Ejecuta la operación correspondiente según la opción seleccionada.
+	 * 
+	 * @param e evento de acción generado por el botón
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		// Procesar botón OK
 		if (e.getSource() == okButton) {
 			Product product;
 			switch (this.option) {
@@ -159,7 +194,8 @@ public class ProductView extends JDialog implements ActionListener{
 							JOptionPane.ERROR_MESSAGE);
 					
 				} else {
-					product = new Product(textFieldName.getText(), 
+					product = new Product(shop.getNextProductId(),
+							textFieldName.getText(), 
 							new Amount(Double.parseDouble(textFieldPrice.getText())) ,
 							true,
 							Integer.parseInt(textFieldStock.getText()));
@@ -182,6 +218,7 @@ public class ProductView extends JDialog implements ActionListener{
 					
 				} else {					
 					product.setStock(product.getStock() + Integer.parseInt(textFieldStock.getText()));
+					shop.updateProduct(product);
 					JOptionPane.showMessageDialog(null, "Stock actualizado ", "Information",
 							JOptionPane.INFORMATION_MESSAGE);
 					// release current screen
@@ -198,8 +235,8 @@ public class ProductView extends JDialog implements ActionListener{
 					JOptionPane.showMessageDialog(null, "Producto no existe ", "Error",
 							JOptionPane.ERROR_MESSAGE);
 					
-				} else {					
-					shop.getInventory().remove(product);
+				} else {
+					shop.deleteProduct(product.getId()); // Invoca el método deleteProduct de shop
 					JOptionPane.showMessageDialog(null, "Producto eliminado", "Information",
 							JOptionPane.INFORMATION_MESSAGE);
 					// release current screen

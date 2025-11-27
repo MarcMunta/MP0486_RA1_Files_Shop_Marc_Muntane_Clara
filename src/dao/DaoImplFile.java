@@ -128,7 +128,7 @@ public class DaoImplFile implements Dao {
 				fw.write("\n");
 
 			}
-			StringBuilder lastLine = new StringBuilder("Total number of pruducts:" + counterInventory);
+			StringBuilder lastLine = new StringBuilder("Total number of products:" + counterInventory);
 			pw.write(lastLine.toString());
 			fw.write("\n");
 
@@ -142,5 +142,20 @@ public class DaoImplFile implements Dao {
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+	@Override
+	public void addProduct(Product product) {
+		throw new UnsupportedOperationException("addProduct no implementado en DaoImplFile");
+	}
+
+	@Override
+	public void updateProduct(Product product) {
+		throw new UnsupportedOperationException("updateProduct no implementado en DaoImplFile");
+	}
+
+	@Override
+	public void deleteProduct(int productId) {
+		throw new UnsupportedOperationException("deleteProduct no implementado en DaoImplFile");
 	}
 }
