@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import model.Amount;
 import model.Employee;
 import model.Product;
 
@@ -103,12 +102,11 @@ public class DaoImplJDBC implements Dao {
     @Override
     public ArrayList<Product> getInventory() {
         ArrayList<Product> inventory = new ArrayList<>();
-        final String query = "SELECT id, name, wholesalerPrice, available, stock FROM inventory";
+        final String query = "SELECT id, name, price, available, stock FROM inventory";
         connect();
         try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
-                Amount amount = new Amount(rs.getDouble("wholesalerPrice"));
-                Product product = new Product(rs.getInt("id"), rs.getString("name"), amount,
+                Product product = new Product(rs.getInt("id"), rs.getString("name"), rs.getDouble("price"),
                         rs.getBoolean("available"), rs.getInt("stock"));
                 inventory.add(product);
             }
@@ -130,14 +128,14 @@ public class DaoImplJDBC implements Dao {
      */
     @Override
     public boolean writeInventory(ArrayList<Product> products) {
-        final String query = "INSERT INTO historical_inventory (id_product, name, wholesalerPrice, available, stock, created_at)"
+        final String query = "INSERT INTO historical_inventory (id_product, name, price, available, stock, created_at)"
                 + " VALUES (?, ?, ?, ?, ?, ?)";
         connect();
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             for (Product product : products) {
                 ps.setInt(1, product.getId());
                 ps.setString(2, product.getName());
-                ps.setDouble(3, product.getWholesalerPrice().getValue());
+                ps.setDouble(3, product.getPrice());
                 ps.setBoolean(4, product.isAvailable());
                 ps.setInt(5, product.getStock());
                 ps.setTimestamp(6, new java.sql.Timestamp(System.currentTimeMillis()));
@@ -161,15 +159,20 @@ public class DaoImplJDBC implements Dao {
      */
     @Override
     public void addProduct(Product product) {
-        final String query = "INSERT INTO inventory (id, name, wholesalerPrice, available, stock) VALUES (?, ?, ?, ?, ?)";
+        final String query = "INSERT INTO inventory (name, price, available, stock) VALUES (?, ?, ?, ?)";
         connect();
-        try (PreparedStatement ps = connection.prepareStatement(query)) {
-            ps.setInt(1, product.getId());
-            ps.setString(2, product.getName());
-            ps.setDouble(3, product.getWholesalerPrice().getValue());
-            ps.setBoolean(4, product.isAvailable());
-            ps.setInt(5, product.getStock());
+        try (PreparedStatement ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            ps.setString(1, product.getName());
+            ps.setDouble(2, product.getPrice());
+            ps.setBoolean(3, product.isAvailable());
+            ps.setInt(4, product.getStock());
             ps.executeUpdate();
+
+            try (ResultSet keys = ps.getGeneratedKeys()) {
+                if (keys.next()) {
+                    product.setId(keys.getInt(1));
+                }
+            }
         } catch (SQLException e) {
             System.err.println("Error insertando producto");
             e.printStackTrace();
@@ -185,12 +188,13 @@ public class DaoImplJDBC implements Dao {
      */
     @Override
     public void updateProduct(Product product) {
-        final String query = "UPDATE inventory SET stock = ?, available = ? WHERE id = ?";
+        final String query = "UPDATE inventory SET stock = ?, available = ?, price = ? WHERE id = ?";
         connect();
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setInt(1, product.getStock());
             ps.setBoolean(2, product.isAvailable());
-            ps.setInt(3, product.getId());
+            ps.setDouble(3, product.getPrice());
+            ps.setInt(4, product.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
             System.err.println("Error actualizando producto");

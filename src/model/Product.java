@@ -1,5 +1,14 @@
 package model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.PostLoad;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
 /**
  * Clase que representa un producto del inventario de la tienda.
  * Contiene información sobre precio, stock y disponibilidad.
@@ -7,24 +16,34 @@ package model;
  * @author Marc Muntané Clarà
  * @version 2.0
  */
+@Entity
+@Table(name = "inventory")
 public class Product {
 	
 	/** Identificador único del producto */
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
 	private int id;
 	
 	/** Nombre del producto */
+	@Column(name = "name", nullable = false, length = 100)
 	private String name;
 	
-	/** Precio de venta al público (wholesalerPrice * 2) */
+	/** Precio del producto (persistido como columna price) */
+	@Column(name = "price", nullable = false)
+	private double price;
+
+	/** Precio formateado para UI (no persistido) */
+	@Transient
 	private Amount publicPrice;
 	
-	/** Precio mayorista de compra */
-	private Amount wholesalerPrice;
-	
 	/** Indica si el producto está disponible para la venta */
+	@Column(name = "available")
 	private boolean available;
 	
 	/** Cantidad de unidades en stock */
+	@Column(name = "stock")
 	private int stock;
 	
 	/** Contador total de productos creados */
@@ -34,19 +53,24 @@ public class Product {
 	public final static double EXPIRATION_RATE = 0.60;
 
 	/**
+	 * Constructor vacío requerido por Hibernate/JPA.
+	 */
+	public Product() {
+	}
+
+	/**
 	 * Constructor que genera automáticamente el ID del producto.
 	 * 
 	 * @param name nombre del producto
-	 * @param wholesalerPrice precio mayorista
+	 * @param price precio del producto
 	 * @param available disponibilidad inicial
 	 * @param stock cantidad inicial en stock
 	 */
-	public Product(String name, Amount wholesalerPrice, boolean available, int stock) {
+	public Product(String name, double price, boolean available, int stock) {
 		super();
-		this.id = totalProducts + 1;
 		this.name = name;
-		this.wholesalerPrice = wholesalerPrice;
-		this.publicPrice = new Amount(wholesalerPrice.getValue() * 2);
+		this.price = price;
+		this.publicPrice = new Amount(price);
 		this.available = available;
 		this.stock = stock;
 		totalProducts++;
@@ -57,19 +81,19 @@ public class Product {
 	 * 
 	 * @param id identificador único del producto
 	 * @param name nombre del producto
-	 * @param wholesalerPrice precio mayorista
+	 * @param price precio del producto
 	 * @param available disponibilidad
 	 * @param stock cantidad en stock
 	 */
-	public Product(int id, String name, Amount wholesalerPrice, boolean available, int stock) {
+	public Product(int id, String name, double price, boolean available, int stock) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.wholesalerPrice = wholesalerPrice;
-		this.publicPrice = new Amount(wholesalerPrice.getValue() * 2);
+		this.price = price;
+		this.publicPrice = new Amount(price);
 		this.available = available;
 		this.stock = stock;
-		totalProducts++;
+		totalProducts = Math.max(totalProducts, this.id);
 	}
 
 	/**
@@ -109,6 +133,9 @@ public class Product {
 	 * @return precio público
 	 */
 	public Amount getPublicPrice() {
+		if (publicPrice == null) {
+			publicPrice = new Amount(price);
+		}
 		return publicPrice;
 	}
 
@@ -120,20 +147,19 @@ public class Product {
 		this.publicPrice = publicPrice;
 	}
 
-	/**
-	 * Obtiene el precio mayorista.
-	 * @return precio mayorista
-	 */
-	public Amount getWholesalerPrice() {
-		return wholesalerPrice;
+	public double getPrice() {
+		return price;
 	}
 
-	/**
-	 * Establece el precio mayorista.
-	 * @param wholesalerPrice nuevo precio mayorista
-	 */
-	public void setWholesalerPrice(Amount wholesalerPrice) {
-		this.wholesalerPrice = wholesalerPrice;
+	public void setPrice(double price) {
+		this.price = price;
+		this.publicPrice = new Amount(price);
+	}
+
+	@PostLoad
+	private void onLoad() {
+		this.publicPrice = new Amount(price);
+		totalProducts = Math.max(totalProducts, this.id);
 	}
 
 	/**
@@ -189,7 +215,7 @@ public class Product {
 	 * Reduce el precio público según EXPIRATION_RATE (40% descuento).
 	 */
 	public void expire() {
-		this.publicPrice.setValue(this.getPublicPrice().getValue() * EXPIRATION_RATE);
+		setPrice(getPrice() * EXPIRATION_RATE);
 	}
 
 	/**
@@ -198,8 +224,8 @@ public class Product {
 	 */
 	@Override
 	public String toString() {
-		return "Product [name=" + name + ", publicPrice=" + publicPrice + ", wholesalerPrice=" + wholesalerPrice
-				+ ", available=" + available + ", stock=" + stock + "]";
+		return "Product [id=" + id + ", name=" + name + ", price=" + getPublicPrice() + ", available=" + available
+				+ ", stock=" + stock + "]";
 	}
 
 }

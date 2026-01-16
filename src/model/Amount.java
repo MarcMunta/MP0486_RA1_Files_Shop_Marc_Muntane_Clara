@@ -20,6 +20,9 @@ public class Amount {
 	/** Formato decimal para mostrar cantidades (2 decimales) */
 	private static final DecimalFormat df = new DecimalFormat("0.00");
 	
+	public Amount() {
+	}
+	
 	/**
 	 * Constructor con valor inicial.
 	 * 

@@ -1,6 +1,6 @@
 # Java Project: Shop Management System 🏪
 
-Sistema de gestión de tienda desarrollado en Java con persistencia SQL mediante JDBC.
+Sistema de gestión de tienda desarrollado en Java con persistencia en MySQL.
 
 **Autor:** Marc Muntané Clarà  
 **Versión:** 2.0
@@ -8,6 +8,10 @@ Sistema de gestión de tienda desarrollado en Java con persistencia SQL mediante
 ## Descripción del Proyecto
 
 El sistema permite gestionar el inventario de productos, ventas y autenticación de empleados de una tienda. Utiliza una arquitectura DAO (Data Access Object) para la persistencia de datos en MySQL.
+
+Actualmente incluye dos implementaciones principales:
+- JDBC (DaoImplJDBC)
+- Hibernate ORM (DaoImplHibernate)
 
 ## Características Principales
 
@@ -37,21 +41,22 @@ El sistema permite gestionar el inventario de productos, ventas y autenticación
 ```sql
 -- Tabla de inventario actual
 CREATE TABLE inventory (
-    id INT PRIMARY KEY,
-    name VARCHAR(100),
-    wholesalerPrice DOUBLE,
-    available BOOLEAN,
-    stock INT
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    price DOUBLE NOT NULL,
+    available BOOLEAN DEFAULT TRUE,
+    stock INT DEFAULT 0
 );
 
 -- Tabla de inventario histórico
 CREATE TABLE historical_inventory (
-    id_product INT,
-    name VARCHAR(100),
-    wholesalerPrice DOUBLE,
-    available BOOLEAN,
-    stock INT,
-    created_at TIMESTAMP
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_product INT NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    price DOUBLE NOT NULL,
+    available BOOLEAN DEFAULT TRUE,
+    stock INT DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Tabla de empleados
@@ -66,8 +71,12 @@ CREATE TABLE employee (
 
 - **JDK 17** o superior
 - **MySQL Server** corriendo en localhost:3306
+- (Recomendado) **Maven** instalado para resolver dependencias de Hibernate
 - Base de datos llamada `shop`
 - Usuario MySQL: `root` (sin contraseña por defecto)
+
+La configuración de Hibernate se encuentra en `src/main/resources/hibernate.cfg.xml`.
+El esquema SQL de referencia está en `sql/create_tables.sql`.
 
 ## Estructura del Proyecto
 
@@ -105,6 +114,14 @@ javac -d bin -sourcepath src src/main/Shop.java
 # Ejecutar
 java -cp bin main.Shop
 ```
+
+### Selección de persistencia (DAO)
+
+Por defecto, la aplicación usa Hibernate. Puedes cambiarlo con una propiedad del sistema:
+
+- Hibernate: `-Dshop.dao=hibernate`
+- JDBC: `-Dshop.dao=jdbc`
+- Ficheros: `-Dshop.dao=file`
 
 ## Métodos Principales Refactorizados
 

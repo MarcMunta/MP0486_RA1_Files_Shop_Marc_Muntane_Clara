@@ -9,12 +9,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 
-import model.Amount;
 import model.Employee;
 import model.Product;
-import model.Sale;
 
 public class DaoImplFile implements Dao {
 	@Override
@@ -35,18 +32,13 @@ public class DaoImplFile implements Dao {
 		return null;
 	}
 
+	@Override
 	public ArrayList<Product> getInventory() {
 
 		// locate file, path and name
 		File f = new File(System.getProperty("user.dir") + File.separator + "files/inputInventory.txt");
-		ArrayList<Product> inventory = new ArrayList<Product>();
-		try {
-			// wrap in proper classes
-			FileReader fr;
-			fr = new FileReader(f);
-			BufferedReader br = new BufferedReader(fr);
-
-			// read first line
+		ArrayList<Product> inventory = new ArrayList<>();
+		try (FileReader fr = new FileReader(f); BufferedReader br = new BufferedReader(fr)) {
 			String line = br.readLine();
 
 			// process and read next line until end of file
@@ -55,7 +47,7 @@ public class DaoImplFile implements Dao {
 				String[] sections = line.split(";");
 
 				String name = "";
-				double wholesalerPrice = 0.0;
+				double price = 0.0;
 				int stock = 0;
 
 				// read each sections
@@ -71,7 +63,7 @@ public class DaoImplFile implements Dao {
 
 					case 1:
 						// format price
-						wholesalerPrice = Double.parseDouble(data[1]);
+						price = Double.parseDouble(data[1]);
 						break;
 
 					case 2:
@@ -84,14 +76,11 @@ public class DaoImplFile implements Dao {
 					}
 				}
 				// add product to inventory
-				inventory.add(new Product(name, new Amount(wholesalerPrice), true, stock));
+				inventory.add(new Product(name, price, true, stock));
 
 				// read next line
 				line = br.readLine();
 			}
-			fr.close();
-			br.close();
-
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -103,6 +92,7 @@ public class DaoImplFile implements Dao {
 		return inventory;
 	}
 
+	@Override
 	public boolean writeInventory(ArrayList<Product> products) {
 		// define file name based on date
 		LocalDate myObj = LocalDate.now();
@@ -111,10 +101,7 @@ public class DaoImplFile implements Dao {
 		// locate file, path and name
 		File f = new File(System.getProperty("user.dir") + File.separator + "files" + File.separator + fileName);
 
-		try {
-			FileWriter fw;
-			fw = new FileWriter(f, true);
-			PrintWriter pw = new PrintWriter(fw);
+		try (FileWriter fw = new FileWriter(f, true); PrintWriter pw = new PrintWriter(fw)) {
 
 			int counterInventory = 0;
 
@@ -131,10 +118,6 @@ public class DaoImplFile implements Dao {
 			StringBuilder lastLine = new StringBuilder("Total number of products:" + counterInventory);
 			pw.write(lastLine.toString());
 			fw.write("\n");
-
-			// close files
-			pw.close();
-			fw.close();
 
 			return true;
 

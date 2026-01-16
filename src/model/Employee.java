@@ -1,7 +1,13 @@
 package model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import dao.Dao;
-import dao.DaoImplJDBC;
+import dao.DaoImplHibernate;
 import main.Logable;
 
 /**
@@ -12,16 +18,22 @@ import main.Logable;
  * @author Marc Muntané Clarà
  * @version 2.0
  */
+@Entity
+@Table(name = "employee")
 public class Employee extends Person implements Logable {
 	
 	/** Identificador único del empleado */
+	@Id
+	@Column(name = "employeeId")
 	private int employeeId;
 	
 	/** Contraseña del empleado */
+	@Column(name = "password", nullable = false, length = 100)
 	private String password;
 	
 	/** DAO JDBC para autenticación contra base de datos */
-	private Dao dao = new DaoImplJDBC();
+	@Transient
+	private transient Dao dao = new DaoImplHibernate();
 	
 	/**
 	 * Constructor con nombre.

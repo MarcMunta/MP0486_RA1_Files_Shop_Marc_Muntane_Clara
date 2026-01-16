@@ -12,7 +12,7 @@ import utils.Constants;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JButton;
-import javax.swing.JDialog;
+import util.LookAndFeelUtil;
 
 import java.awt.Font;
 import javax.swing.SwingConstants;
@@ -53,6 +53,7 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		LookAndFeelUtil.applySystemLookAndFeel();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -140,7 +141,7 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub 	
 
 	}
 

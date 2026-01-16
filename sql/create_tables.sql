@@ -15,9 +15,9 @@ USE shop;
 -- Almacena los productos actuales del inventario
 -- =====================================================
 CREATE TABLE IF NOT EXISTS inventory (
-    id INT PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
-    wholesalerPrice DOUBLE NOT NULL,
+    price DOUBLE NOT NULL,
     available BOOLEAN DEFAULT TRUE,
     stock INT DEFAULT 0
 );
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS historical_inventory (
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_product INT NOT NULL,
     name VARCHAR(100) NOT NULL,
-    wholesalerPrice DOUBLE NOT NULL,
+    price DOUBLE NOT NULL,
     available BOOLEAN DEFAULT TRUE,
     stock INT DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS employee (
 -- =====================================================
 
 -- Insertar productos de ejemplo
-INSERT INTO inventory (id, name, wholesalerPrice, available, stock) VALUES
+INSERT IGNORE INTO inventory (id, name, price, available, stock) VALUES
 (1, 'Manzana', 10.00, TRUE, 50),
 (2, 'Pera', 15.00, TRUE, 30),
 (3, 'Hamburguesa', 25.00, TRUE, 20),
@@ -59,7 +59,7 @@ INSERT INTO inventory (id, name, wholesalerPrice, available, stock) VALUES
 (5, 'Leche', 5.00, TRUE, 100);
 
 -- Insertar empleado de prueba (ID: 1, Password: 1234)
-INSERT INTO employee (employeeId, name, password) VALUES
+INSERT IGNORE INTO employee (employeeId, name, password) VALUES
 (1, 'Admin', '1234'),
 (123, 'Test', 'test');
 

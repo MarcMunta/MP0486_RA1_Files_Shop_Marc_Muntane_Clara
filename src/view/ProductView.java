@@ -16,7 +16,6 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import main.Shop;
-import model.Amount;
 import model.Product;
 import utils.Constants;
 
@@ -194,9 +193,9 @@ public class ProductView extends JDialog implements ActionListener {
 							JOptionPane.ERROR_MESSAGE);
 					
 				} else {
-					product = new Product(shop.getNextProductId(),
-							textFieldName.getText(), 
-							new Amount(Double.parseDouble(textFieldPrice.getText())) ,
+					product = new Product(
+							textFieldName.getText(),
+							Double.parseDouble(textFieldPrice.getText()),
 							true,
 							Integer.parseInt(textFieldStock.getText()));
 					shop.addProduct(product);

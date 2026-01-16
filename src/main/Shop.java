@@ -8,17 +8,19 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import dao.DaoImplJDBC;
+import dao.Dao;
+import dao.DaoFactory;
 import model.Amount;
 import model.Client;
 import model.Employee;
 import model.Product;
 import model.Sale;
+import util.LookAndFeelUtil;
 
 /**
  * Clase principal que representa la tienda.
  * Gestiona el inventario de productos, las ventas y la caja.
- * Utiliza persistencia JDBC para sincronizar datos con la base de datos MySQL.
+ * Utiliza un DAO para sincronizar datos con el almacenamiento (Hibernate/JDBC/Ficheros).
  * 
  * @author Marc Muntané Clarà
  * @version 2.0
@@ -42,8 +44,8 @@ public class Shop {
 	/** Contador de ventas */
 	private int saleCount;
 	
-	/** DAO JDBC para persistencia de datos en base de datos */
-	private final DaoImplJDBC dao = new DaoImplJDBC();
+	/** DAO para persistencia de datos (por defecto Hibernate) */
+	private final Dao dao = DaoFactory.createDao();
 
 	/** Tasa de impuestos aplicada a las ventas */
 	private static final double TAX_RATE = 1.04;
@@ -156,6 +158,7 @@ public class Shop {
 	 * @param args argumentos de línea de comandos (no utilizados)
 	 */
 	public static void main(String[] args) {
+		LookAndFeelUtil.applySystemLookAndFeel();
 		Shop shop = new Shop();
 
 		// Cargar inventario desde base de datos
@@ -306,12 +309,12 @@ public class Shop {
 		Scanner scanner = new Scanner(System.in);
 		System.out.print("Nombre: ");
 		String name = scanner.nextLine();
-		System.out.print("Precio mayorista: ");
-		double wholesalerPrice = scanner.nextDouble();
+		System.out.print("Precio: ");
+		double price = scanner.nextDouble();
 		System.out.print("Stock: ");
 		int stock = scanner.nextInt();
 
-		addProduct(new Product(getNextProductId(), name, new Amount(wholesalerPrice), true, stock));
+		addProduct(new Product(name, price, true, stock));
 	}
 
 	/**
@@ -319,7 +322,7 @@ public class Shop {
 	 * El producto se elimina tanto de la memoria como de la base de datos.
 	 */
 	public void removeProduct() {
-		if (inventory.size() == 0) {
+		if (inventory.isEmpty()) {
 			System.out.println("No se pueden eliminar productos, inventario vacio");
 			return;
 		}
@@ -453,7 +456,7 @@ public class Shop {
 		
 		// make payment
 		if(!client.pay(totalAmount)) {
-			System.out.println("Cliente debe: " + client.getBalance());;
+			System.out.println("Cliente debe: " + client.getBalance());
 		}
 
 		// create sale

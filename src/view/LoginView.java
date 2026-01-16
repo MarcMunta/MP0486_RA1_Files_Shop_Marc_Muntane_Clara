@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import util.LookAndFeelUtil;
 
 public class LoginView extends JFrame implements ActionListener{
 
@@ -29,6 +30,7 @@ public class LoginView extends JFrame implements ActionListener{
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		LookAndFeelUtil.applySystemLookAndFeel();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
