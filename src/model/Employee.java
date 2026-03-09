@@ -7,13 +7,13 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import dao.Dao;
-import dao.DaoImplHibernate;
+import dao.DaoFactory;
 import main.Logable;
 
 /**
  * Clase que representa un empleado de la tienda.
  * Extiende Person e implementa Logable para autenticación.
- * Utiliza JDBC para validar credenciales contra la base de datos.
+ * Utiliza el DAO configurado para validar credenciales contra el almacenamiento.
  * 
  * @author Marc Muntané Clarà
  * @version 2.0
@@ -31,9 +31,9 @@ public class Employee extends Person implements Logable {
 	@Column(name = "password", nullable = false, length = 100)
 	private String password;
 	
-	/** DAO JDBC para autenticación contra base de datos */
+	/** DAO configurado para autenticación contra base de datos */
 	@Transient
-	private transient Dao dao = new DaoImplHibernate();
+	private transient Dao dao = DaoFactory.createDao();
 	
 	/**
 	 * Constructor con nombre.

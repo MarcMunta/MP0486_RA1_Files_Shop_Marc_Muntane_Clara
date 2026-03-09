@@ -20,7 +20,7 @@ import util.LookAndFeelUtil;
 /**
  * Clase principal que representa la tienda.
  * Gestiona el inventario de productos, las ventas y la caja.
- * Utiliza un DAO para sincronizar datos con el almacenamiento (Hibernate/JDBC/Ficheros).
+ * Utiliza un DAO para sincronizar datos con el almacenamiento (MongoDB por defecto).
  * 
  * @author Marc Muntané Clarà
  * @version 2.0
@@ -44,7 +44,7 @@ public class Shop {
 	/** Contador de ventas */
 	private int saleCount;
 	
-	/** DAO para persistencia de datos (por defecto Hibernate) */
+	/** DAO para persistencia de datos (por defecto MongoDB) */
 	private final Dao dao = DaoFactory.createDao();
 
 	/** Tasa de impuestos aplicada a las ventas */
@@ -265,16 +265,16 @@ public class Shop {
 
 	/**
 	 * Inicializa el inventario de la tienda.
-	 * Carga los productos desde la base de datos SQL mediante el repositorio JDBC.
+	 * Carga los productos desde el almacenamiento configurado.
 	 */
 	public void initializeInventory() {
-		// Leer inventario desde base de datos SQL
+		// Leer inventario desde el almacenamiento configurado
 		this.fetchInventoryFromDatabase();
 	}
 
 	/**
-	 * Recupera el inventario desde la tabla SQL para garantizar que la aplicación
-	 * arranca sincronizada con la base de datos.
+	 * Recupera el inventario del almacenamiento persistente para garantizar que la
+	 * aplicación arranca sincronizada con los datos.
 	 * Actualiza la lista de inventario y el contador de productos.
 	 */
 	private void fetchInventoryFromDatabase() {

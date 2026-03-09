@@ -1,0 +1,17 @@
+{
+  "_id": {
+    "$oid": "69aef9f5c70f1fbc517bc449"
+  },
+  "employeeId": 1,
+  "name": "Admin",
+  "password": "1234"
+}
+
+{
+  "_id": {
+    "$oid": "69aef9f5c70f1fbc517bc44a"
+  },
+  "employeeId": 123,
+  "name": "Test",
+  "password": "test"
+}

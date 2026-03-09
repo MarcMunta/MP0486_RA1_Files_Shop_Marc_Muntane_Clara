@@ -1,0 +1,83 @@
+{
+  "_id": {
+    "$oid": "69aef9f5c70f1fbc517bc444"
+  },
+  "id": 1,
+  "name": "Manzana",
+  "wholesalePrice": {
+    "value": 10.0,
+    "currency": "€"
+  },
+  "available": true,
+  "stock": 50
+}
+
+{
+  "_id": {
+    "$oid": "69aef9f5c70f1fbc517bc445"
+  },
+  "id": 2,
+  "name": "Pera",
+  "wholesalePrice": {
+    "value": 15.0,
+    "currency": "€"
+  },
+  "available": true,
+  "stock": 30
+}
+
+{
+  "_id": {
+    "$oid": "69aef9f5c70f1fbc517bc446"
+  },
+  "id": 3,
+  "name": "Hamburguesa",
+  "wholesalePrice": {
+    "value": 25.0,
+    "currency": "€"
+  },
+  "available": true,
+  "stock": 20
+}
+
+{
+  "_id": {
+    "$oid": "69aef9f5c70f1fbc517bc447"
+  },
+  "id": 4,
+  "name": "Fresa",
+  "wholesalePrice": {
+    "value": 8.0,
+    "currency": "€"
+  },
+  "available": true,
+  "stock": 40
+}
+
+{
+  "_id": {
+    "$oid": "69aef9f5c70f1fbc517bc448"
+  },
+  "id": 5,
+  "name": "Leche",
+  "wholesalePrice": {
+    "value": 5.0,
+    "currency": "€"
+  },
+  "available": true,
+  "stock": 100
+}
+
+{
+  "_id": {
+    "$oid": "69aefe38618c946c0d40129b"
+  },
+  "id": 6,
+  "name": "testmongo",
+  "wholesalePrice": {
+    "value": 4.5,
+    "currency": "€"
+  },
+  "available": true,
+  "stock": 12
+}
