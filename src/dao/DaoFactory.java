@@ -3,8 +3,8 @@ package dao;
 /**
  * Factoría simple para elegir implementación del DAO.
  *
- * Por defecto usa Hibernate.
- * Puedes cambiarlo con: -Dshop.dao=jdbc | file | hibernate
+ * Por defecto usa MongoDB.
+ * Puedes cambiarlo con: -Dshop.dao=mongo | jdbc | file | hibernate
  */
 public final class DaoFactory {
 
@@ -12,12 +12,13 @@ public final class DaoFactory {
 	}
 
 	public static Dao createDao() {
-		String configured = System.getProperty("shop.dao", "hibernate").trim().toLowerCase();
+		String configured = System.getProperty("shop.dao", "mongo").trim().toLowerCase();
 		return switch (configured) {
+		case "mongo" -> new DaoImplMongoDB();
 		case "jdbc" -> new DaoImplJDBC();
 		case "file" -> new DaoImplFile();
 		case "hibernate" -> new DaoImplHibernate();
-		default -> new DaoImplHibernate();
+		default -> new DaoImplMongoDB();
 		};
 	}
 }

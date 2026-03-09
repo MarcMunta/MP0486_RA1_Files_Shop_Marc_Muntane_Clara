@@ -70,15 +70,18 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 	 * Create the frame.
 	 */
 	public ShopView() {
+		this(new Shop());
+	}
+
+	public ShopView(Shop shop) {
 		setTitle("MiTenda.com - Menu principal");
 		// listen key
 		addKeyListener(this);
 		setFocusable(true);
 		setFocusTraversalKeysEnabled(false);
 
-		// create shop
-		shop = new Shop();
-		shop.initializeInventory();
+		this.shop = shop;
+		this.shop.initializeInventory();
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 600, 600);
@@ -201,11 +204,14 @@ public class ShopView extends JFrame implements ActionListener, KeyListener {
 	 */
 	public void exportInventory() {
 		if (shop.exportInventoryToDatabase()) {
-			JOptionPane.showMessageDialog(this, "Inventario exportado correctamente", "INFORMACION",
-					JOptionPane.INFORMATION_MESSAGE);
+			showMessage("Inventario exportado correctamente", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
 		} else {
-			JOptionPane.showMessageDialog(this, "Error exportando el inventario", "ERROR", JOptionPane.ERROR_MESSAGE);
+			showMessage("Error exportando el inventario", "ERROR", JOptionPane.ERROR_MESSAGE);
 		}
+	}
+
+	protected void showMessage(String message, String title, int messageType) {
+		JOptionPane.showMessageDialog(this, message, title, messageType);
 	}
 
 	public void openCashView() {

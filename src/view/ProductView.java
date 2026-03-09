@@ -22,7 +22,7 @@ import utils.Constants;
 /**
  * Diálogo Swing para gestionar productos del inventario.
  * Permite añadir productos, añadir stock y eliminar productos.
- * Sincroniza automáticamente los cambios con la base de datos SQL.
+ * Sincroniza automáticamente los cambios con el almacenamiento persistente.
  * 
  * @author Marc Muntané Clarà
  * @version 2.0
