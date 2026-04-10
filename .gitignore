@@ -2,3 +2,4 @@
 /.tools/
 /.vscode/
 /.settings/org.eclipse.core.resources.prefs
+/objects/*.odb

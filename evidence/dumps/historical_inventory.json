@@ -1,6 +1,6 @@
 {
   "_id": {
-    "$oid": "69aefa9e618c946c0d40128b"
+    "$oid": "69d9148b6b165016c6b70041"
   },
   "id": 1,
   "name": "Manzana",
@@ -11,13 +11,13 @@
   "available": true,
   "stock": 50,
   "created_at": {
-    "$date": "2026-03-09T16:51:42.213Z"
+    "$date": "2026-04-10T15:17:31.824Z"
   }
 }
 
 {
   "_id": {
-    "$oid": "69aefa9e618c946c0d40128c"
+    "$oid": "69d9148b6b165016c6b70042"
   },
   "id": 2,
   "name": "Pera",
@@ -28,13 +28,13 @@
   "available": true,
   "stock": 30,
   "created_at": {
-    "$date": "2026-03-09T16:51:42.213Z"
+    "$date": "2026-04-10T15:17:31.824Z"
   }
 }
 
 {
   "_id": {
-    "$oid": "69aefa9e618c946c0d40128d"
+    "$oid": "69d9148b6b165016c6b70043"
   },
   "id": 3,
   "name": "Hamburguesa",
@@ -45,13 +45,13 @@
   "available": true,
   "stock": 20,
   "created_at": {
-    "$date": "2026-03-09T16:51:42.213Z"
+    "$date": "2026-04-10T15:17:31.824Z"
   }
 }
 
 {
   "_id": {
-    "$oid": "69aefa9e618c946c0d40128e"
+    "$oid": "69d9148b6b165016c6b70044"
   },
   "id": 4,
   "name": "Fresa",
@@ -62,13 +62,13 @@
   "available": true,
   "stock": 40,
   "created_at": {
-    "$date": "2026-03-09T16:51:42.213Z"
+    "$date": "2026-04-10T15:17:31.824Z"
   }
 }
 
 {
   "_id": {
-    "$oid": "69aefa9e618c946c0d40128f"
+    "$oid": "69d9148b6b165016c6b70045"
   },
   "id": 5,
   "name": "Leche",
@@ -79,13 +79,13 @@
   "available": true,
   "stock": 100,
   "created_at": {
-    "$date": "2026-03-09T16:51:42.213Z"
+    "$date": "2026-04-10T15:17:31.824Z"
   }
 }
 
 {
   "_id": {
-    "$oid": "69aefab7618c946c0d401291"
+    "$oid": "69d916052fe0fa471386015d"
   },
   "id": 1,
   "name": "Manzana",
@@ -96,13 +96,13 @@
   "available": true,
   "stock": 50,
   "created_at": {
-    "$date": "2026-03-09T16:52:07.482Z"
+    "$date": "2026-04-10T15:23:49.392Z"
   }
 }
 
 {
   "_id": {
-    "$oid": "69aefab7618c946c0d401292"
+    "$oid": "69d916052fe0fa471386015e"
   },
   "id": 2,
   "name": "Pera",
@@ -113,13 +113,13 @@
   "available": true,
   "stock": 30,
   "created_at": {
-    "$date": "2026-03-09T16:52:07.482Z"
+    "$date": "2026-04-10T15:23:49.392Z"
   }
 }
 
 {
   "_id": {
-    "$oid": "69aefab7618c946c0d401293"
+    "$oid": "69d916052fe0fa471386015f"
   },
   "id": 3,
   "name": "Hamburguesa",
@@ -130,13 +130,13 @@
   "available": true,
   "stock": 20,
   "created_at": {
-    "$date": "2026-03-09T16:52:07.482Z"
+    "$date": "2026-04-10T15:23:49.392Z"
   }
 }
 
 {
   "_id": {
-    "$oid": "69aefab7618c946c0d401294"
+    "$oid": "69d916052fe0fa4713860160"
   },
   "id": 4,
   "name": "Fresa",
@@ -147,13 +147,13 @@
   "available": true,
   "stock": 40,
   "created_at": {
-    "$date": "2026-03-09T16:52:07.482Z"
+    "$date": "2026-04-10T15:23:49.392Z"
   }
 }
 
 {
   "_id": {
-    "$oid": "69aefab7618c946c0d401295"
+    "$oid": "69d916052fe0fa4713860161"
   },
   "id": 5,
   "name": "Leche",
@@ -164,6 +164,91 @@
   "available": true,
   "stock": 100,
   "created_at": {
-    "$date": "2026-03-09T16:52:07.482Z"
+    "$date": "2026-04-10T15:23:49.393Z"
+  }
+}
+
+{
+  "_id": {
+    "$oid": "69d91819e76ec15ea784c9cc"
+  },
+  "id": 1,
+  "name": "Manzana",
+  "wholesalePrice": {
+    "value": 10.0,
+    "currency": "€"
+  },
+  "available": true,
+  "stock": 50,
+  "created_at": {
+    "$date": "2026-04-10T15:32:41.422Z"
+  }
+}
+
+{
+  "_id": {
+    "$oid": "69d91819e76ec15ea784c9cd"
+  },
+  "id": 2,
+  "name": "Pera",
+  "wholesalePrice": {
+    "value": 15.0,
+    "currency": "€"
+  },
+  "available": true,
+  "stock": 30,
+  "created_at": {
+    "$date": "2026-04-10T15:32:41.422Z"
+  }
+}
+
+{
+  "_id": {
+    "$oid": "69d91819e76ec15ea784c9ce"
+  },
+  "id": 3,
+  "name": "Hamburguesa",
+  "wholesalePrice": {
+    "value": 25.0,
+    "currency": "€"
+  },
+  "available": true,
+  "stock": 20,
+  "created_at": {
+    "$date": "2026-04-10T15:32:41.422Z"
+  }
+}
+
+{
+  "_id": {
+    "$oid": "69d91819e76ec15ea784c9cf"
+  },
+  "id": 4,
+  "name": "Fresa",
+  "wholesalePrice": {
+    "value": 8.0,
+    "currency": "€"
+  },
+  "available": true,
+  "stock": 40,
+  "created_at": {
+    "$date": "2026-04-10T15:32:41.422Z"
+  }
+}
+
+{
+  "_id": {
+    "$oid": "69d91819e76ec15ea784c9d0"
+  },
+  "id": 5,
+  "name": "Leche",
+  "wholesalePrice": {
+    "value": 5.0,
+    "currency": "€"
+  },
+  "available": true,
+  "stock": 100,
+  "created_at": {
+    "$date": "2026-04-10T15:32:41.422Z"
   }
 }

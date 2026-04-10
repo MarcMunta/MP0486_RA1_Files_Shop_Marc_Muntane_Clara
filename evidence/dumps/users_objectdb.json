@@ -1,0 +1,11 @@
+3{
+  "employeeId": 1,
+  "name": "Admin",
+  "password": "1234"
+}
+
+{
+  "employeeId": 123,
+  "name": "Test",
+  "password": "test"
+}

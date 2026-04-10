@@ -6,8 +6,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import dao.Dao;
 import dao.DaoFactory;
+import dao.DaoImplObjectDB;
 import main.Logable;
 
 /**
@@ -19,7 +19,7 @@ import main.Logable;
  * @version 2.0
  */
 @Entity
-@Table(name = "employee")
+@Table(name = "users")
 public class Employee extends Person implements Logable {
 	
 	/** Identificador único del empleado */
@@ -33,7 +33,7 @@ public class Employee extends Person implements Logable {
 	
 	/** DAO configurado para autenticación contra base de datos */
 	@Transient
-	private transient Dao dao = DaoFactory.createDao();
+	private transient DaoImplObjectDB dao = (DaoImplObjectDB) DaoFactory.createLoginDao();
 	
 	/**
 	 * Constructor con nombre.
